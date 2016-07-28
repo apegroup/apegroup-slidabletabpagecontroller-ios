@@ -17,9 +17,9 @@ extension UIScrollView {
     Minimum value is 0 (i.e. left of first page).
     Maximum value is 'contentSize.width - pageSize' (i.e. left of last page)
     */
-    func setHorizontalContentOffsetWithinBounds(x: CGFloat, animated: Bool = false) {
+    func setHorizontalContentOffset(_ x: CGFloat, animated: Bool = false) {
         let newX = max(minimumHorizontalOffset(), min(maximumHorizontalOffset(), x))
-        setContentOffset(CGPointMake(newX, 0), animated: animated)
+        setContentOffset(CGPoint(x: newX, y: 0), animated: animated)
     }
     
     /**
@@ -45,7 +45,7 @@ extension UIScrollView {
      Maximum value is 'contentSize.width - pageSize' (i.e. left of last page)
      */
     func maximumHorizontalOffset() -> CGFloat {
-        return contentSize.width - CGRectGetWidth(frame)
+        return contentSize.width - frame.width
     }
     
     /**
@@ -80,6 +80,6 @@ extension UIScrollView {
     
     func scrollToPageAtIndex(index: Int, animated: Bool = false) {
         let newX = CGFloat(index) * pageSize()
-        setHorizontalContentOffsetWithinBounds(newX, animated: animated)
+        setHorizontalContentOffset(newX, animated: animated)
     }
 }

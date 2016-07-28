@@ -1,5 +1,5 @@
 //
-//  NSBundle+APSlidableTabPageController.swift
+//  Bundle+APSlidableTabPageController.swift
 //  APSlidableTabPageController
 //
 //  Created by Magnus Eriksson on 21/01/16.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension NSBundle {
+extension Bundle {
     
-    static func frameworkBundle() -> NSBundle? {
+    static func frameworkBundle() -> Bundle? {
         let FrameworkBundleID = "com.apegroup.APSlidableTabPageController"
-        return NSBundle(identifier: FrameworkBundleID)
+        return Bundle(identifier: FrameworkBundleID)
     }
 }

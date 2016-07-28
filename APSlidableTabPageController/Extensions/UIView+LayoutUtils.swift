@@ -10,34 +10,34 @@ import UIKit
 
 extension UIView {
     
-    func addViewsHorizontally(views: [UIView]) {
+    func addViewsHorizontally(_ views: [UIView]) {
         
         var prevView: UIView?
         for view in views {
             view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
             
-            view.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-            view.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+            view.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
             
             if prevView == nil {
                 //First view - Pin to view's leading anchor
-                view.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
+                view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             } else {
                 //All other views - to to previous view's trailing anchor
-                view.leadingAnchor.constraintEqualToAnchor(prevView?.trailingAnchor).active = true
+                view.leadingAnchor.constraint(equalTo: prevView!.trailingAnchor).isActive = true
             }
             
             prevView = view;
         }
         
         //Last view - pin to container view's trailing anchor
-        prevView?.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
+        prevView?.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
     
     func reportAmbiguity () {
         for subview in subviews {
-            if subview.hasAmbiguousLayout() {
+            if subview.hasAmbiguousLayout {
                 NSLog("Found ambigious layout: \(subview)")
             }
             
@@ -49,13 +49,12 @@ extension UIView {
     
     func listConstraints() {
         for subview in subviews {
-            let arr1 = subview.constraintsAffectingLayoutForAxis(.Horizontal)
-            let arr2 = subview.constraintsAffectingLayoutForAxis(.Vertical)
+            let arr1 = subview.constraintsAffectingLayout(for: .horizontal)
+            let arr2 = subview.constraintsAffectingLayout(for: .vertical)
             NSLog("\n\n%@\nH: %@\nV:%@", subview, arr1, arr2)
             if subview.subviews.count > 0 {
                 subview.listConstraints()
             }
         }
     }
-
 }

@@ -1,37 +1,32 @@
 # APSlidableTabPageController
 
-Description:
+## Description:
 - A slidable tab page controller written in Swift. 
-- Supports both Portraint and Landscape.
+- Supports both Portrait and Landscape.
 
 ![slidabletabpagecontroller](https://cloud.githubusercontent.com/assets/16682908/12745471/ac8c307e-c999-11e5-83e1-455f949cc4d6.gif)
 
-Installation:
+## Installation:
 - Fetch with Carthage, e.g:
-  - "github "apegroup/APSlidableTabPageController-iOS" == 1.0.0"
+  - 'github "apegroup/APSlidableTabPageController-iOS"'
 
-Usage:
+## Usage:
 ```swift
   import APSlidableTabPageController
   
   let arrayOfViewControllers: [UIViewController] = ...
   
   //Create
-  let vc = HorizontalContainerCreator.horizontalContainerWithViewControllers(arrayOfViewControllers)
+  let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: arrayOfViewControllers)
   
   //Configure appearance
-  vc.indexBarTextColor = UIColor.blackColor()
-  vc.indexBarHighlightedTextColor = swipeVc.indexIndicatorView.backgroundColor!
+  tabPageCtrl.indexBarTextColor = UIColor.black()
+  tabPageCtrl.indexBarHighlightedTextColor = UIColor.white()
   ```
 
-TODOs:
-- Rename to APSlidableTabPageController
-
-Restrictions:
+## Restrictions:
 - Must be instantiated from a NIB
 
-
-Known Issues:
-
+## Known Issues:
 
 Feel free to contribute!

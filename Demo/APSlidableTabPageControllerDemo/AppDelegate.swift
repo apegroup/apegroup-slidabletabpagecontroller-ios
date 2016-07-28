@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         window = UIWindow()
         window?.rootViewController =  slidableTabPageController()
         window?.makeKeyAndVisible()
@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func slidableTabPageController() -> UIViewController {
-        let vc = HorizontalContainerCreator.horizontalContainerWithViewControllers(createViewControllers())
-        vc.indexBarTextColor = UIColor.blackColor()
+        let vc = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers())
+        vc.indexBarTextColor = UIColor.black
         vc.indexBarHighlightedTextColor = vc.indexIndicatorView.backgroundColor!
         return vc
     }

@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F28CE611C50F8B300835E73 /* NSBundle+APSlidableTabPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28CE601C50F8B300835E73 /* NSBundle+APSlidableTabPageController.swift */; };
+		5F28CE611C50F8B300835E73 /* Bundle+APSlidableTabPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28CE601C50F8B300835E73 /* Bundle+APSlidableTabPageController.swift */; };
 		5FA8E4FB1C50F41400DCE0E5 /* APSlidableTabPageController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FA8E4FA1C50F41400DCE0E5 /* APSlidableTabPageController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FA8E5081C50F46A00DCE0E5 /* HorizontalContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8E5031C50F46A00DCE0E5 /* HorizontalContainerViewController.swift */; };
-		5FA8E5091C50F46A00DCE0E5 /* HorizontalContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA8E5041C50F46A00DCE0E5 /* HorizontalContainerViewController.xib */; };
+		5FA8E5081C50F46A00DCE0E5 /* APSlidableTabPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8E5031C50F46A00DCE0E5 /* APSlidableTabPageController.swift */; };
+		5FA8E5091C50F46A00DCE0E5 /* APSlidableTabPageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA8E5041C50F46A00DCE0E5 /* APSlidableTabPageController.xib */; };
 		5FA8E50A1C50F46A00DCE0E5 /* UIScrollView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8E5061C50F46A00DCE0E5 /* UIScrollView+Utils.swift */; };
 		5FA8E50B1C50F46A00DCE0E5 /* UIView+LayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8E5071C50F46A00DCE0E5 /* UIView+LayoutUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5F28CE601C50F8B300835E73 /* NSBundle+APSlidableTabPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+APSlidableTabPageController.swift"; sourceTree = "<group>"; };
+		5F28CE601C50F8B300835E73 /* Bundle+APSlidableTabPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+APSlidableTabPageController.swift"; sourceTree = "<group>"; };
 		5FA8E4F71C50F41400DCE0E5 /* APSlidableTabPageController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APSlidableTabPageController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA8E4FA1C50F41400DCE0E5 /* APSlidableTabPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSlidableTabPageController.h; sourceTree = "<group>"; };
 		5FA8E4FC1C50F41400DCE0E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FA8E5031C50F46A00DCE0E5 /* HorizontalContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalContainerViewController.swift; sourceTree = "<group>"; };
-		5FA8E5041C50F46A00DCE0E5 /* HorizontalContainerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HorizontalContainerViewController.xib; sourceTree = "<group>"; };
+		5FA8E5031C50F46A00DCE0E5 /* APSlidableTabPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APSlidableTabPageController.swift; sourceTree = "<group>"; };
+		5FA8E5041C50F46A00DCE0E5 /* APSlidableTabPageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APSlidableTabPageController.xib; sourceTree = "<group>"; };
 		5FA8E5061C50F46A00DCE0E5 /* UIScrollView+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Utils.swift"; sourceTree = "<group>"; };
 		5FA8E5071C50F46A00DCE0E5 /* UIView+LayoutUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LayoutUtils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,8 +67,8 @@
 		5FA8E5021C50F46A00DCE0E5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5FA8E5031C50F46A00DCE0E5 /* HorizontalContainerViewController.swift */,
-				5FA8E5041C50F46A00DCE0E5 /* HorizontalContainerViewController.xib */,
+				5FA8E5031C50F46A00DCE0E5 /* APSlidableTabPageController.swift */,
+				5FA8E5041C50F46A00DCE0E5 /* APSlidableTabPageController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -78,7 +78,7 @@
 			children = (
 				5FA8E5061C50F46A00DCE0E5 /* UIScrollView+Utils.swift */,
 				5FA8E5071C50F46A00DCE0E5 /* UIView+LayoutUtils.swift */,
-				5F28CE601C50F8B300835E73 /* NSBundle+APSlidableTabPageController.swift */,
+				5F28CE601C50F8B300835E73 /* Bundle+APSlidableTabPageController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 		5FA8E4EE1C50F41400DCE0E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Apegroup;
 				TargetAttributes = {
 					5FA8E4F61C50F41400DCE0E5 = {
@@ -151,7 +151,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FA8E5091C50F46A00DCE0E5 /* HorizontalContainerViewController.xib in Resources */,
+				5FA8E5091C50F46A00DCE0E5 /* APSlidableTabPageController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +162,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F28CE611C50F8B300835E73 /* NSBundle+APSlidableTabPageController.swift in Sources */,
-				5FA8E5081C50F46A00DCE0E5 /* HorizontalContainerViewController.swift in Sources */,
+				5F28CE611C50F8B300835E73 /* Bundle+APSlidableTabPageController.swift in Sources */,
+				5FA8E5081C50F46A00DCE0E5 /* APSlidableTabPageController.swift in Sources */,
 				5FA8E50A1C50F46A00DCE0E5 /* UIScrollView+Utils.swift in Sources */,
 				5FA8E50B1C50F46A00DCE0E5 /* UIView+LayoutUtils.swift in Sources */,
 			);
@@ -185,8 +185,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -233,8 +235,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -275,6 +279,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APSlidableTabPageController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -292,6 +297,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APSlidableTabPageController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
