@@ -31,7 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var viewControllers: [UIViewController] = []
         for i in 0..<6 {
             let vc = UIViewController()
-            vc.title = "VC nr \(i)"
+            vc.title = "\(i)"
+            if i == 1 {
+                vc.title = "hej hej hej"
+            } else if i == 3 {
+                vc.title = "jäääääättelång trunkerad säkerligen!"
+            } else if i == 5 {
+                    vc.title = "lite längre"
+            }
+            
             vc.view.backgroundColor = randomColor()
             viewControllers.append(vc)
         }

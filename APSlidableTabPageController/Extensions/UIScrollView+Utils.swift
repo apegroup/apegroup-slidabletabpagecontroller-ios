@@ -12,6 +12,11 @@ extension UIScrollView {
     
     //MARK: UIScrollViewHelpers
     
+    func scrollToPageAtIndex(_ index: Int, animated: Bool = false) {
+        let newX = CGFloat(index) * pageSize()
+        setHorizontalContentOffset(newX, animated: animated)
+    }
+    
     /**
     "Safely" updates the scroll view's horizontal content offset within its bounds.
     Minimum value is 0 (i.e. left of first page).
@@ -23,14 +28,26 @@ extension UIScrollView {
     }
     
     /**
-     Calculates the current X-scroll percentage for the received scroll view
+     Calculates the current X-scroll percentage within the content size
      */
     func horizontalPercentScrolled() -> CGFloat {
         let maxHorizontalOffset = maximumHorizontalOffset()
-
         if maxHorizontalOffset > 0 {
             return contentOffset.x / maxHorizontalOffset
         }
+        return 0
+    }
+    
+    /**
+     Calculates the current X-scroll percentage within the current page.
+     Starts at index 0. E.g. if the scroll view is 50% between page 5 and 6, this function will return 4.5
+     */
+    func horizontalPercentScrolledInCurrentPage() -> CGFloat {
+        let maxHorizontalOffset = pageSize()
+        if maxHorizontalOffset > 0 {
+            return (contentOffset.x / maxHorizontalOffset)
+        }
+        
         return 0
     }
     
@@ -56,30 +73,7 @@ extension UIScrollView {
         return pageNumber
     }
     
-    
-    func nextPageFrame() -> CGRect {
-        var nextPageFrame = bounds
-        nextPageFrame.origin.x = CGFloat(currentPage() + 1) * pageSize()
-        return nextPageFrame
-    }
-    
-    func previousPageFrame() -> CGRect {
-        var prevPageFrame = bounds
-        prevPageFrame.origin.x = CGFloat(max(0, currentPage() - 0)) * pageSize()
-        return prevPageFrame
-    }
-    
     func pageSize() -> CGFloat {
         return frame.size.width
-    }
-    
-    func pageContainingX(x: CGFloat) -> Int {
-        let page = Int(x / pageSize())
-        return page
-    }
-    
-    func scrollToPageAtIndex(index: Int, animated: Bool = false) {
-        let newX = CGFloat(index) * pageSize()
-        setHorizontalContentOffset(newX, animated: animated)
     }
 }
