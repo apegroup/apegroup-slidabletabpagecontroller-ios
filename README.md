@@ -1,8 +1,14 @@
 # APSlidableTabPageController
 
 ## Description:
-- A slidable tab page controller written in Swift. 
-- Supports both Portrait and Landscape.
+- A slidable tab page controller written in Swift
+- Supports both Portrait and Landscape
+- Configurable:
+  - index bar position (top or bottom)
+  - index bar height
+  - number of index bar elements per page
+  - index bar element image or text
+  - coloring
 
 ![slidabletabpagecontroller](https://cloud.githubusercontent.com/assets/16682908/12745471/ac8c307e-c999-11e5-83e1-455f949cc4d6.gif)
 
@@ -10,7 +16,7 @@
 - Fetch with Carthage, e.g:
 - 'github "apegroup/APSlidableTabPageController-iOS"'
 
-## Usage:
+## Usage example:
 ```swift
 import APSlidableTabPageController
 
@@ -20,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
       let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers(count: 7))
+      tabPageCtrl.indexBarPosition = .bottom
+      tabPageCtrl.maxNumberOfIndexBarElementsPerScreen = 4.5
+      tabPageCtrl.indexBarHeightConstraint.constant = 49
       tabPageCtrl.indexBarElementColor = UIColor.black
       tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
 

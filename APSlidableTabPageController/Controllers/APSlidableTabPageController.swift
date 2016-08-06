@@ -27,8 +27,14 @@ public struct APSlidableTabPageControllerFactory {
 
 public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate  {
     
+    public enum IndexBarPosition {
+        case top
+        case bottom
+    }
+    
     //MARK: IBOutlets
     
+    @IBOutlet weak var verticalStackView: UIStackView!
     @IBOutlet public weak var indexBarScrollView: UIScrollView!
     @IBOutlet public weak var indexBarContainerView: UIView!
     @IBOutlet public weak var indexBarHeightConstraint: NSLayoutConstraint!
@@ -41,6 +47,50 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     @IBOutlet public weak var contentContainerView: UIView!
     
     //MARK: Properties
+    
+    private var indexBarElements: [UIView] = []
+    
+    //Decides whether the indexBar should scroll to follow the index indicator view.
+    private var indexBarShouldTrackIndicatorView = true
+    
+    //The current page before the trait collection changes, e.g. prior to rotation occurrs
+    private var pageIndexBeforeTraitCollectionChange: Int = 0
+    
+    public var viewControllers: [UIViewController] = [] {
+        willSet {
+            removeContentView()
+        }
+        
+        didSet {
+            setupContentView()
+            setupIndexBar()
+            updateIndexIndicatorXPosition(percentage: 0)
+        }
+    }
+
+    //MARK: Configurable
+    
+    public var maxNumberOfIndexBarElementsPerScreen = 3.5 {
+        didSet {
+            setupIndexBar()
+            updateIndexIndicatorXPosition(percentage: 0)
+        }
+    }
+    
+    public var indexBarPosition: IndexBarPosition = .top {
+        didSet {
+            let index: Int
+            switch indexBarPosition {
+            case oldValue:          return                                     //Already at specified position
+            case .top:              index = 0                                  //First
+            case .bottom:           index = verticalStackView.subviews.count-1 //Last
+            }
+            
+            DispatchQueue.main.async {
+                self.verticalStackView.insertArrangedSubview(self.indexBarScrollView, at: index)
+            }
+        }
+    }
     
     public var indexBarElementColor = UIColor.black {
         didSet {
@@ -63,25 +113,6 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
         }
     }
     
-    private var indexBarElements: [UIView] = []
-    
-    //Decides whether the indexBar should scroll to follow the index indicator view.
-    private var indexBarShouldTrackIndicatorView = true
-    
-    //The current page before the trait collection changes, e.g. prior to rotation occurrs
-    private var pageIndexBeforeTraitCollectionChange: Int = 0
-    
-    public var viewControllers: [UIViewController] = [] {
-        willSet {
-            removeContentView()
-        }
-        
-        didSet {
-            setupContentView()
-            setupIndexBar()
-            updateIndexIndicatorXPosition(percentage: 0)
-        }
-    }
     
     
     //MARK: Rotation related events
@@ -167,10 +198,9 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     }
     
     private func indexBarElementWidthMultiplier() -> CGFloat {
-        let maxNumberOfElementsPerScreen = 3.5
         let numberOfElements = Double(viewControllers.count > 0 ? viewControllers.count : 1)
-        let multiplier = numberOfElements > maxNumberOfElementsPerScreen ?
-            CGFloat(1) / CGFloat(maxNumberOfElementsPerScreen) :
+        let multiplier = numberOfElements > maxNumberOfIndexBarElementsPerScreen ?
+            CGFloat(1) / CGFloat(maxNumberOfIndexBarElementsPerScreen) :
             CGFloat(1) / CGFloat(numberOfElements)
         return multiplier
     }

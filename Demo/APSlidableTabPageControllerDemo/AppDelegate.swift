@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers(count: 7))
+        tabPageCtrl.indexBarPosition = .bottom
+        tabPageCtrl.indexBarHeightConstraint.constant = 49
+        tabPageCtrl.maxNumberOfIndexBarElementsPerScreen = 4.5
         tabPageCtrl.indexBarElementColor = UIColor.black
         tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
         
