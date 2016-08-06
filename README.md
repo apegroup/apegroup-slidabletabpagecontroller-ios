@@ -10,7 +10,7 @@
   - index bar element image or text
   - coloring
 
-![slidabletabpagecontroller](https://cloud.githubusercontent.com/assets/16682908/12745471/ac8c307e-c999-11e5-83e1-455f949cc4d6.gif)
+![slidabletabpagecontroller](https://cloud.githubusercontent.com/assets/653946/17456681/0861e190-5be0-11e6-971f-f61cf152b3b3.gif)
 
 ## Installation:
 - Fetch with Carthage, e.g:
