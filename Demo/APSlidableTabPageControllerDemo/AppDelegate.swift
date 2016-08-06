@@ -14,41 +14,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers(count: 7))
+        tabPageCtrl.indexBarElementColor = UIColor.black
+        tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
+        
+        
         window = UIWindow()
-        window?.rootViewController =  slidableTabPageController()
+        window?.rootViewController = tabPageCtrl
         window?.makeKeyAndVisible()
         return true
     }
     
-    private func slidableTabPageController() -> UIViewController {
-        let vc = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers())
-        vc.indexBarTextColor = UIColor.black
-        vc.indexBarHighlightedTextColor = vc.indexIndicatorView.backgroundColor!
-        return vc
-    }
     
-    private func createViewControllers() -> [UIViewController] {
-        var viewControllers: [UIViewController] = []
-        for i in 0..<6 {
+    private func createViewControllers(count: Int) -> [UIViewController] {
+        return (0..<count).map { i -> UIViewController in
             let vc = UIViewController()
             vc.title = "\(i)"
-            if i == 1 {
-                vc.title = "hej hej hej"
-            } else if i == 3 {
-                vc.title = "jäääääättelång trunkerad säkerligen!"
-            } else if i == 5 {
-                    vc.title = "lite längre"
-            }
-            
             vc.view.backgroundColor = randomColor()
-            viewControllers.append(vc)
+            
+            if i == 0 {
+                vc.tabBarItem.image = UIImage(named: "icon-star")?.withRenderingMode(.alwaysTemplate)
+                vc.tabBarItem.selectedImage = UIImage(named: "icon-plane")?.withRenderingMode(.alwaysTemplate)
+            } else if i == 1 {
+                vc.title = "hello there"
+            } else if i == 2 {
+                vc.tabBarItem.image = UIImage(named: "icon-star")
+            } else if i == 4 {
+                vc.title = "a veeeery long (truncated) title"
+            }
+            return vc
         }
-        
-        return viewControllers
     }
     
     private func randomColor() -> UIColor {
         return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
     }
 }
-

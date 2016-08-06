@@ -42,15 +42,28 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     
     //MARK: Properties
     
-    public var indexBarTextColor = UIColor.white {
-        didSet { indexBarElements.forEach { label in label.textColor = indexBarTextColor } }
+    public var indexBarElementColor = UIColor.black {
+        didSet {
+            indexBarElements.forEach { element in
+                element.tintColor = indexBarElementColor
+                if let label = element as? UILabel {
+                    label.textColor = indexBarElementColor
+                }
+            }
+        }
     }
     
-    public var indexBarHighlightedTextColor = UIColor.darkGray {
-        didSet { indexBarElements.forEach { label in label.highlightedTextColor = indexBarHighlightedTextColor } }
+    public var indexBarElementHighlightedColor = UIColor.red {
+        didSet {
+            indexBarElements.forEach { element in
+                if let label = element as? UILabel {
+                    label.highlightedTextColor = indexBarElementHighlightedColor
+                }
+            }
+        }
     }
     
-    private var indexBarElements: [UILabel] = []
+    private var indexBarElements: [UIView] = []
     
     //Decides whether the indexBar should scroll to follow the index indicator view.
     private var indexBarShouldTrackIndicatorView = true
@@ -123,15 +136,29 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
         return max(minWidth, min(maxWidth, width))
     }
     
-    private func createIndexBarElements() -> [UILabel] {
+    /**
+     Creates an index bar element for each view controller.
+     If the view controller has tab bar item images, then they will be used as the index bar element.
+     Else the view controller's title will be used.
+ 
+     */
+    private func createIndexBarElements() -> [UIView] {
         return viewControllers.map { vc in
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.textAlignment = .center
-            label.text = vc.title
-            label.textColor = indexBarTextColor
-            label.highlightedTextColor = indexBarHighlightedTextColor
-            return label
+            if let image = vc.tabBarItem.image {
+                let imageView = UIImageView(image: image, highlightedImage: vc.tabBarItem.selectedImage)
+                imageView.contentMode = .center
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.tintColor = indexBarElementColor
+                return imageView
+            } else {
+                let label = UILabel()
+                label.textAlignment = .center
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.text = vc.title
+                label.textColor = indexBarElementColor
+                label.highlightedTextColor = indexBarElementHighlightedColor
+                return label
+            }
         }
     }
     
@@ -280,9 +307,16 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
      */
     private func highlightIndexBarElement(at x: CGFloat) {
         let indexOfElementAtXPosition = Int(x / indexBarElementWidth())
-        
-        for (index, label) in indexBarElements.enumerated() {
-            label.isHighlighted = index == indexOfElementAtXPosition
+
+        for (index, view) in indexBarElements.enumerated() {
+            let isHighlighted = index == indexOfElementAtXPosition
+            
+            if let imageView = view as? UIImageView {
+                imageView.isHighlighted = isHighlighted
+                imageView.tintColor = isHighlighted ? indexBarElementHighlightedColor : indexBarElementColor
+            } else if let label = view as? UILabel {
+                label.isHighlighted = isHighlighted
+            }
         }
     }
     

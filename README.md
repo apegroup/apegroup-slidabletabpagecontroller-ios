@@ -8,20 +8,51 @@
 
 ## Installation:
 - Fetch with Carthage, e.g:
-  - 'github "apegroup/APSlidableTabPageController-iOS"'
+- 'github "apegroup/APSlidableTabPageController-iOS"'
 
 ## Usage:
 ```swift
-  import APSlidableTabPageController
-  
-  let arrayOfViewControllers: [UIViewController] = ...
-  
-  //Create
-  let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: arrayOfViewControllers)
-  
-  //Configure appearance
-  tabPageCtrl.indexBarTextColor = UIColor.black()
-  tabPageCtrl.indexBarHighlightedTextColor = UIColor.white()
+import APSlidableTabPageController
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  var window: UIWindow?
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers(count: 7))
+      tabPageCtrl.indexBarElementColor = UIColor.black
+      tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
+
+      window = UIWindow()
+      window?.rootViewController = tabPageCtrl
+      window?.makeKeyAndVisible()
+      return true
+    }
+
+  private func createViewControllers(count: Int) -> [UIViewController] {
+    return (0..<count).map { i -> UIViewController in
+      let vc = UIViewController()
+      vc.title = "\(i)"
+      vc.view.backgroundColor = randomColor()
+
+      if i == 0 {
+        vc.tabBarItem.image = UIImage(named: "icon-star")?.withRenderingMode(.alwaysTemplate)
+        vc.tabBarItem.selectedImage = UIImage(named: "icon-plane")?.withRenderingMode(.alwaysTemplate)
+      } else if i == 1 {
+          vc.title = "hello there"
+      } else if i == 2 {
+          vc.tabBarItem.image = UIImage(named: "icon-star")
+      } else if i == 4 {
+          vc.title = "a veeeery long (truncated) title"
+      }
+      return vc
+    }
+  }
+
+  private func randomColor() -> UIColor {
+    return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
+  }
+}
   ```
 
 ## Restrictions:
