@@ -69,6 +69,10 @@ extension UIScrollView {
      Returns the current page number
      */
     func currentPage() -> Int {
+        guard contentOffset.x >= 0 else {
+            return -1
+        }
+        
         let pageNumber = Int(contentOffset.x / pageSize())
         return pageNumber
     }

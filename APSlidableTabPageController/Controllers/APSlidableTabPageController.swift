@@ -15,7 +15,7 @@ public struct APSlidableTabPageControllerFactory {
     
     static public func make(childViewControllers: [UIViewController]) -> APSlidableTabPageController {
         
-        let nib = UINib(nibName: String(APSlidableTabPageController.self),
+        let nib = UINib(nibName: String(describing: APSlidableTabPageController.self),
                         bundle: Bundle(for: APSlidableTabPageController.self))
             .instantiate(withOwner: nil, options: nil)
         
@@ -38,7 +38,7 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     @IBOutlet public weak var indexBarScrollView: UIScrollView!
     @IBOutlet public weak var indexBarContainerView: UIView!
     @IBOutlet public weak var indexBarHeightConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet public weak var indexIndicatorView: UIView!
     @IBOutlet public weak var indexIndicatorViewCenterXConstraint: NSLayoutConstraint!
     private var indexIndicatorViewWidthConstraint: NSLayoutConstraint?
@@ -55,6 +55,9 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     
     //The current page before the trait collection changes, e.g. prior to rotation occurrs
     private var pageIndexBeforeTraitCollectionChange: Int = 0
+    
+    //Keeps track of the current page index in order to track scroll direction (i.e. if scrolling backwards or forwards)
+    private var currentPageIndex: Int = 0
     
     public var viewControllers: [UIViewController] = [] {
         willSet {
@@ -128,7 +131,7 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
         //Restore previous page.
         //A slight delay is required since the scroll view's frame size has not yet been updated to reflect the new trait collection.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.contentScrollView.scrollToPageAtIndex(self.pageIndexBeforeTraitCollectionChange, animated: true)
+            self.contentScrollView.scrollToPageAtIndex(self.pageIndexBeforeTraitCollectionChange, animated: false)
             
             //Update the indicator view position manully in case no scroll was performed
             self.updateIndexIndicatorXPosition(percentage: self.contentScrollView.horizontalPercentScrolled())
@@ -259,18 +262,23 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
             //E.g. if the scroll view is 50% between page 5 and 6, the  will be 4.5
             let percentScrolledInPage = contentScrollView.horizontalPercentScrolledInCurrentPage()
             let percentScrolledInTotal = contentScrollView.horizontalPercentScrolled()
-            let transitionSourceIndex = contentScrollView.currentPage()
-            let isGoingBackwards = percentScrolledInPage < CGFloat(transitionSourceIndex)
-            let transitionDestinationIndex = transitionSourceIndex + (isGoingBackwards ? -1 : 1)
-            var transitionProgress = percentScrolledInPage - CGFloat(transitionSourceIndex)
             
-            if transitionDestinationIndex < transitionSourceIndex {
+            let isGoingBackwards = contentScrollView.currentPage() < currentPageIndex
+            var transitionProgress = percentScrolledInPage - CGFloat(contentScrollView.currentPage())
+            if isGoingBackwards {
                 //If we're moving left, normalise the progress so that it always starts from 0 --> 1
                 transitionProgress = (1 - transitionProgress)
             }
             
-            updateIndexIndicatorWidth(sourceIndex: transitionSourceIndex,
-                                      destinationIndex: transitionDestinationIndex,
+            //The index of the leftmost element involved in the transition
+            let transitionLeftElementIndex = contentScrollView.currentPage()
+            let transitionRightElementIndex = transitionLeftElementIndex + 1
+            
+            let transitionSourceElementIndex = isGoingBackwards ? transitionRightElementIndex : transitionLeftElementIndex
+            let transitionDestinationElementIndex = isGoingBackwards ? transitionLeftElementIndex : transitionRightElementIndex
+            
+            updateIndexIndicatorWidth(sourceElementIndex: transitionSourceElementIndex,
+                                      destinationElementIndex: transitionDestinationElementIndex,
                                       transitionProgress: transitionProgress)
             
             updateIndexIndicatorXPosition(percentage: percentScrolledInTotal)
@@ -279,15 +287,15 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     
     /**
      Updates the width of the 'indexIndicatorView' by calculating the width delta 
-     of the source element and the destination element and multiplying the delta with the transition progress.
+     of the source and the destination elements involved in the transition and multiplying the delta with the transition progress.
      */
-    private func updateIndexIndicatorWidth(sourceIndex: Int, destinationIndex: Int, transitionProgress: CGFloat) {
-        guard destinationIndex >= 0, destinationIndex < indexBarElements.count else {
+    private func updateIndexIndicatorWidth(sourceElementIndex: Int, destinationElementIndex: Int, transitionProgress: CGFloat) {
+        guard destinationElementIndex >= 0, destinationElementIndex < indexBarElements.count else {
             return
         }
         
-        let sourceElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[sourceIndex].intrinsicContentSize.width)
-        let destinationElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[destinationIndex].intrinsicContentSize.width)
+        let sourceElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[sourceElementIndex].intrinsicContentSize.width)
+        let destinationElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[destinationElementIndex].intrinsicContentSize.width)
         let delta = destinationElementWidth - sourceElementWidth
         let newWidth = sourceElementWidth + (delta * transitionProgress)
         indexIndicatorViewWidthConstraint!.constant = clampedIndexIndicatorWidth(width: newWidth)
@@ -360,6 +368,9 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
             
             //Restore tracking of indicator view
             indexBarShouldTrackIndicatorView = true
+            
+            //Save the current page index
+            currentPageIndex = contentScrollView.currentPage()
         }
     }
     
@@ -373,6 +384,9 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
             
             //Restore tracking of indicator view
             indexBarShouldTrackIndicatorView = true
+            
+            //Save the current page index
+            currentPageIndex = contentScrollView.currentPage()
         }
     }
     
