@@ -10,11 +10,11 @@
   - index bar element image or text
   - coloring
 
-![slidabletabpagecontroller](https://cloud.githubusercontent.com/assets/653946/17456681/0861e190-5be0-11e6-971f-f61cf152b3b3.gif)
+![slidabletabpagecontrollerdemo](https://cloud.githubusercontent.com/assets/653946/17933575/d8ad7318-6a14-11e6-9b0e-d5cae9ae719c.gif)
 
 ## Installation:
 - Fetch with Carthage, e.g:
-- 'github "apegroup/APSlidableTabPageController-iOS"'
+- 'github "apegroup/apegroup-slidabletabpagecontroller-ios"'
 
 ## Usage example:
 ```swift
