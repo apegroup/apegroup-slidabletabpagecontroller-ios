@@ -131,11 +131,17 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
         //Restore previous page.
         //A slight delay is required since the scroll view's frame size has not yet been updated to reflect the new trait collection.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                //Scroll the index indicator view to visible only after the its position has been completely updated
+                self.scrollIndexIndicatorViewToVisible()
+            }
+            
             self.contentScrollView.scrollToPageAtIndex(self.pageIndexBeforeTraitCollectionChange, animated: false)
             
-            //Update the indicator view position manully in case no scroll was performed
+            //Update the indicator view position manually in case no scroll was performed
             self.updateIndexIndicatorXPosition(percentage: self.contentScrollView.horizontalPercentScrolled())
-            self.scrollIndexIndicatorViewToVisible()
+            CATransaction.commit()
         }
     }
     
@@ -278,7 +284,7 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
             let transitionDestinationElementIndex = isGoingBackwards ? transitionLeftElementIndex : transitionRightElementIndex
             
             updateIndexIndicatorWidth(sourceElementIndex: transitionSourceElementIndex,
-                                      destinationElementIndex: transitionDestinationElementIndex,
+                                      destElementIndex: transitionDestinationElementIndex,
                                       transitionProgress: transitionProgress)
             
             updateIndexIndicatorXPosition(percentage: percentScrolledInTotal)
@@ -289,13 +295,21 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
      Updates the width of the 'indexIndicatorView' by calculating the width delta 
      of the source and the destination elements involved in the transition and multiplying the delta with the transition progress.
      */
-    private func updateIndexIndicatorWidth(sourceElementIndex: Int, destinationElementIndex: Int, transitionProgress: CGFloat) {
-        guard destinationElementIndex >= 0, destinationElementIndex < indexBarElements.count else {
-            return
-        }
+    private func updateIndexIndicatorWidth(sourceElementIndex: Int, destElementIndex: Int, transitionProgress: CGFloat) {
+        //Ensure indices are within bounds
+        var safeSourceIndex = sourceElementIndex >= 0 ? sourceElementIndex : 0
+        safeSourceIndex = safeSourceIndex < indexBarElements.count ? safeSourceIndex : (indexBarElements.count - 1)
         
-        let sourceElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[sourceElementIndex].intrinsicContentSize.width)
-        let destinationElementWidth = clampedIndexIndicatorWidth(width: indexBarElements[destinationElementIndex].intrinsicContentSize.width)
+        var safeDestIndex = destElementIndex >= 0 ? destElementIndex : 0
+        safeDestIndex = safeDestIndex < indexBarElements.count ? safeDestIndex : (indexBarElements.count - 1)
+        
+        //Fetch elements
+        let sourceElement = indexBarElements[safeSourceIndex]
+        let destElement = indexBarElements[safeDestIndex]
+        
+        //Calculate width
+        let sourceElementWidth = clampedIndexIndicatorWidth(width: sourceElement.intrinsicContentSize.width)
+        let destinationElementWidth = clampedIndexIndicatorWidth(width: destElement.intrinsicContentSize.width)
         let delta = destinationElementWidth - sourceElementWidth
         let newWidth = sourceElementWidth + (delta * transitionProgress)
         indexIndicatorViewWidthConstraint!.constant = clampedIndexIndicatorWidth(width: newWidth)
@@ -395,10 +409,6 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
      */
     func scrollIndexIndicatorViewToVisible() {
         let frameWithMargin = indexIndicatorView.frame.insetBy(dx: -20, dy: 0)
-        let isIndexViewVisible = indexBarScrollView.bounds.contains(frameWithMargin)
-        
-        if isIndexViewVisible == false {
-            indexBarScrollView.scrollRectToVisible(frameWithMargin, animated: true)
-        }
+        indexBarScrollView.scrollRectToVisible(frameWithMargin, animated: true)
     }
 }

@@ -12,11 +12,11 @@ import APSlidableTabPageController
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         let tabPageCtrl = APSlidableTabPageControllerFactory.make(childViewControllers: createViewControllers(count: 7))
-        tabPageCtrl.indexBarPosition = .bottom
-        tabPageCtrl.indexBarHeightConstraint.constant = 49
+//        tabPageCtrl.indexBarPosition = .bottom
+//        tabPageCtrl.indexBarHeightConstraint.constant = 49
         tabPageCtrl.maxNumberOfIndexBarElementsPerScreen = 4.5
         tabPageCtrl.indexBarElementColor = UIColor.black
         tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
@@ -44,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 vc.tabBarItem.image = UIImage(named: "icon-star")
             } else if i == 4 {
                 vc.title = "a veeeery long (truncated) title"
+            }
+            else if i == 6 {
+                vc.title = "last tab"
             }
             return vc
         }
