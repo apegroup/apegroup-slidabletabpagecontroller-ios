@@ -14,7 +14,7 @@
 
 ## Installation:
 - Fetch with Carthage, e.g:
-- 'github "apegroup/apegroup-slidabletabpagecontroller-ios"'
+- `github "apegroup/apegroup-slidabletabpagecontroller-ios"`
 
 ## Usage example:
 ```swift
