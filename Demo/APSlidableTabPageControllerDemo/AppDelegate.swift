@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabPageCtrl.maxNumberOfIndexBarElementsPerScreen = 4.5
         tabPageCtrl.indexBarElementColor = UIColor.black
         tabPageCtrl.indexBarElementHighlightedColor = tabPageCtrl.indexIndicatorView.backgroundColor!
+        tabPageCtrl.delegate = self
         
         
         window = UIWindow()
@@ -54,5 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func randomColor() -> UIColor {
         return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
+    }
+}
+
+extension AppDelegate: APSlidableTabPageControllerDelegate {
+    func slidableTabPageControllerDidChangeCurrentPage(pageIndex: Int) {
+        print("current page: \(pageIndex)")
     }
 }
