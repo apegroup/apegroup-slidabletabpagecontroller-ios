@@ -25,6 +25,10 @@ public struct APSlidableTabPageControllerFactory {
     }
 }
 
+public protocol APSlidableTabPageControllerDelegate: class {
+    func slidableTabPageControllerDidChangeCurrentPage(pageIndex: Int)
+}
+
 public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate  {
     
     public enum IndexBarPosition {
@@ -46,6 +50,8 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     @IBOutlet public weak var contentScrollView: UIScrollView!
     @IBOutlet public weak var contentContainerView: UIView!
     
+    public weak var delegate: APSlidableTabPageControllerDelegate?
+    
     //MARK: Properties
     
     private var indexBarElements: [UIView] = []
@@ -57,7 +63,14 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     private var pageIndexBeforeTraitCollectionChange: Int = 0
     
     //Keeps track of the current page index in order to track scroll direction (i.e. if scrolling backwards or forwards)
-    private var currentPageIndex: Int = 0
+    public private(set) var currentPageIndex: Int = 0 {
+        didSet {
+            guard let delegate = delegate else { return }
+            if oldValue != currentPageIndex {
+                delegate.slidableTabPageControllerDidChangeCurrentPage(pageIndex: currentPageIndex)
+            }
+        }
+    }
     
     public var viewControllers: [UIViewController] = [] {
         willSet {
