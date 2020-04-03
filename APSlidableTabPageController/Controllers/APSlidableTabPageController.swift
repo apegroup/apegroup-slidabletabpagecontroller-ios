@@ -230,8 +230,8 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     
     private func setupContentView() {
         let vcViews = viewControllers.map { vc -> UIView in
-            addChildViewController(vc)
-            vc.didMove(toParentViewController: self)
+            addChild(vc)
+            vc.didMove(toParent: self)
             return vc.view
         }
         
@@ -247,9 +247,9 @@ public class APSlidableTabPageController: UIViewController, UIScrollViewDelegate
     
     private func removeContentView() {
         viewControllers.forEach { vc in
-            vc.willMove(toParentViewController: nil)
+            vc.willMove(toParent: nil)
             vc.view.removeFromSuperview()
-            vc.removeFromParentViewController()
+            vc.removeFromParent()
         }
     }
     
